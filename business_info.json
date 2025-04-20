@@ -1,0 +1,38 @@
+{
+    "name": "DEFAULT NAME",
+    "expense_categories": [
+        "equipment",
+        "shipping",
+        "delivery"
+    ],
+    "expense_methods": [
+        "cash",
+        "credit"
+    ],
+    "sale_platforms": [
+        "instagram",
+        "depop"
+    ],
+    "transportation_methods": [
+        "shipping",
+        "delivery",
+        "pick-up"
+    ],
+    "item_sizes": [
+        "XXS",
+        "XS",
+        "S",
+        "S/M",
+        "M",
+        "M/L",
+        "L",
+        "XL",
+        "XXL"
+    ],
+    "years": [],
+    "categories": [
+        "equipment",
+        "shipping",
+        "delivery"
+    ]
+}
