@@ -1,6 +1,7 @@
 import sqlite3
 from classes.item_class import Item
-from FILEPATH import FILEPATH
+import os
+from dotenv import load_dotenv
 
 class DatabaseManager:
 
@@ -11,9 +12,11 @@ class DatabaseManager:
     def connect(self):
         if self.conn is None:
             try:
-                self.conn = sqlite3.connect(
-                    FILEPATH
-                )
+                load_dotenv()
+                db_path = os.getenv("FILEPATH")
+                if not db_path:
+                    raise ValueError("FILEPATH not set in .env file")
+                self.conn = sqlite3.connect(db_path)
                 self.db = self.conn.cursor()
             except sqlite3.DatabaseError as e:
                 print(f"Database connection failed: {e}")

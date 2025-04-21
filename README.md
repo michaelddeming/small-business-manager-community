@@ -23,16 +23,32 @@ This project by no means reinvents the wheel as a business management program, b
 ### Requirements
 
 - `Python 3.13`
-    - No external packages are required. This project uses the following built-in Python libraries:
+    - This project uses the following built-in Python libraries:
         1. `tkinter`
         2. `datetime`
         3. `JSON`
         4. `sqlite3`
+    - External packages:
+        1. `python-dotenv`
 
 ### Database Sync
+- Before proceeding, ensure you have the `python-dotenv` package installed. You can do this by running:
 
-- Copy the filepath for the `sbm.db` file found within the `small_business_manager` project directory. 
-- Paste the `sbm.db` filepath as the **variable value** for the variable `FILEPATH` found within the `FILEPATH.env` file inside the `app` directory.
+```bash
+pip install python-dotenv
+```
+Next, follow these steps to sync the database:
+
+1. Create a `.env` file in the root of your project directory. This file is used to store environment-specific variables, such as the database file path, in a secure and configurable way. Note that `.env` files are typically excluded from version control (e.g., using a `.gitignore` file) to protect sensitive information.
+
+2. Add the following line to your `.env` file, replacing `/absolute/path/to/your/file` with the actual path to your `sbm.db` file. Make sure to wrap the path in quotation marks:
+
+`FILEPATH="/absolute/path/to/your/small_business_manager/sbm.db"`
+
+3. Save the `.env` file. Your application will read this file to locate the database.
+
+**Important:** Do not commit your `.env` file to version control to avoid exposing sensitive information in future versions.
+
 
 ### Workflow
 

@@ -1,6 +1,11 @@
 import sqlite3
+import os
+from dotenv import load_dotenv
 
-conn = sqlite3.connect("/Users/michaeldeming/repos/small_business_manager/sbm.db")
+load_dotenv()
+
+db_path = os.getenv("FILEPATH")
+conn = sqlite3.connect(db_path)
 
 db = conn.cursor()
 
@@ -97,7 +102,7 @@ conn.commit()
 
 
 # def table_stuff(table_name: str):
-#     conn = sqlite3.connect("/Users/michaeldeming/repos/small_business_manager/sbm.db")
+#     conn = sqlite3.connect(db_path)
 #     db = conn.cursor()
 #     return db.execute(f"SELECT * FROM {table_name}").fetchall()
 
