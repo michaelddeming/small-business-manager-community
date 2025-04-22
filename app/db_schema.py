@@ -1,4 +1,24 @@
+import platform
+from pathlib import Path
 import sqlite3
+
+
+def get_database_path():
+    """Get the path to create the database based on the OS"""
+    app_name = "small_business_manager"
+
+    system = platform.system()
+    if system == "Windows":
+        pass
+    elif system == "Darwin":
+        pass
+    else:
+        # Linux distros
+        data_dir = Path.home() / ".local" / "share" / app_name
+        data_dir.mkdir(exist_ok=True)
+        db_path = data_dir / "sbm.db"
+        db_path.touch(exist_ok=True)
+
 
 conn = sqlite3.connect("/Users/michaeldeming/repos/small_business_manager/sbm.db")
 
@@ -55,7 +75,7 @@ db = conn.cursor()
 #         year INTEGER PRIMARY KEY,
 #         gross_sales INTEGER NOT NULL,
 #         sales_transport INTEGER DEFAULT 0,
-#         allowances INTEGER DEFAULT 0, 
+#         allowances INTEGER DEFAULT 0,
 #         fees INTEGER DEFAULT 0,
 #         discounts INTEGER DEFAULT 0,
 #         net_sales INTEGER GENERATED ALWAYS AS (gross_sales + sales_transport - allowances - fees - discounts) STORED,
@@ -74,7 +94,7 @@ db = conn.cursor()
 #         )
 #         """)
 
-# REMOVE DATA in TABLES 
+# REMOVE DATA in TABLES
 # db.execute("DELETE FROM inventory")
 # db.execute("DELETE FROM expenses")
 # db.execute("DELETE FROM transactions")
