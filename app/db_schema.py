@@ -9,15 +9,15 @@ def get_database_path():
 
     system = platform.system()
     if system == "Windows":
-        pass
+        data_dir = Path.home() / "AppData" / "Roaming" / app_name
     elif system == "Darwin":
         pass
     else:
         # Linux distros
         data_dir = Path.home() / ".local" / "share" / app_name
-        data_dir.mkdir(exist_ok=True)
-        db_path = data_dir / "sbm.db"
-        db_path.touch(exist_ok=True)
+
+    data_dir.mkdir(exist_ok=True)
+    db_path = Path(data_dir / "sbm.db").touch(exist_ok=True)  # Creating .db file at path
 
 
 conn = sqlite3.connect("/Users/michaeldeming/repos/small_business_manager/sbm.db")
