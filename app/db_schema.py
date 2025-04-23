@@ -25,26 +25,27 @@ def get_database_path():
 
 def database_initialization():
     """Database creation"""
-    db_path = get_database_path()
+    db_dir = get_database_path()
 
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_dir)
     db = conn.cursor()
 
-    # INVENTORY TABLE
     db.execute(
-        """CREATE TABLE IF NOT EXISTS inventory (
+        """
+    CREATE TABLE IF NOT EXISTS inventory (
+            id INTEGER PRIMARY KEY,
+            date_purchased TIMESTAMP,
             description TEXT,
             size TEXT,
             cost INTEGER,
             status TEXT
-            )
+    );
     """
     )
 
-    # EXPENSES TABLE
     db.execute(
-        """CREATE TABLE IF NOT EXISTS expenses (
-
+        """
+    CREATE TABLE IF NOT EXISTS expenses (
             id INTEGER PRIMARY KEY,
             date TIMESTAMP,
             description TEXT,
@@ -52,14 +53,31 @@ def database_initialization():
             category TEXT,
             method TEXT,
             note TEXT
-            )
+    );
     """
     )
 
-    # TRANSACTIONS TABLE
     db.execute(
-        """CREATE TABLE IF NOT EXISTS transactions (
+        """
+    CREATE TABLE IF NOT EXISTS income_statement (
+            year INTEGER PRIMARY KEY,
+            gross_sales INTEGER NOT NULL,
+            sales_transport INTEGER DEFAULT 0,
+            allowances INTEGER DEFAULT 0,
+            fees INTEGER DEFAULT 0,
+            discounts INTEGER DEFAULT 0,
+            net_sales INTEGER GENERATED ALWAYS AS (gross_sales + sales_transport - allowances - fees - discounts) STORED,
+            cost_of_goods_sold INTEGER NOT NULL,
+            gross_margin INTEGER GENERATED ALWAYS AS (net_sales - cost_of_goods_sold) STORED,
+            expenses INTEGER DEFAULT 0,
+            net_income INTEGER GENERATED ALWAYS AS (gross_margin - expenses) STORED
+    );
+    """
+    )
 
+    db.execute(
+        """
+    CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY,
             type TEXT,
             date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -73,37 +91,19 @@ def database_initialization():
             transaction_total INTEGER GENERATED ALWAYS AS (item_amount + transportation_charge - fee - discount),
             note TEXT,
             FOREIGN KEY (item_id) REFERENCES inventory(id)
-            )
+    );
     """
     )
 
-    # INCOME_STATEMENT
     db.execute(
-        """CREATE TABLE IF NOT EXISTS income_statement (
-
-            year INTEGER PRIMARY KEY,
-            gross_sales INTEGER NOT NULL,
-            sales_transport INTEGER DEFAULT 0,
-            allowances INTEGER DEFAULT 0,
-            fees INTEGER DEFAULT 0,
-            discounts INTEGER DEFAULT 0,
-            net_sales INTEGER GENERATED ALWAYS AS (gross_sales + sales_transport - allowances - fees - discounts) STORED,
-            cost_of_goods_sold INTEGER NOT NULL,
-            gross_margin INTEGER GENERATED ALWAYS AS (net_sales - cost_of_goods_sold) STORED,
-            expenses INTEGER DEFAULT 0,
-            net_income INTEGER GENERATED ALWAYS AS (gross_margin - expenses) STORED
-            )
-            """
-    )
-
-    # BALANCE SHEET
-    db.execute(
-        """CREATE TABLE IF NOT EXISTS balance_sheet (
-
+        """
+    CREATE TABLE IF NOT EXISTS balance_sheet (
             year INTEGER PRIMARY KEY,
             unsold_inventory INTEGER NOT NULL
-            )
-            """
+    ); 
+    """
     )
 
     conn.commit()
+    conn.close()
+    return db_dir
