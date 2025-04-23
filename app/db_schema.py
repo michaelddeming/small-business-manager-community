@@ -11,19 +11,24 @@ def get_database_path():
     if system == "Windows":
         data_dir = Path.home() / "AppData" / "Roaming" / app_name
     elif system == "Darwin":
-        pass
+        data_dir = Path.home() / "Library" / "Application Support" / app_name
     else:
         # Linux distros
         data_dir = Path.home() / ".local" / "share" / app_name
 
     data_dir.mkdir(exist_ok=True)
-    db_path = Path(data_dir / "sbm.db").touch(exist_ok=True)  # Creating .db file at path
+    db_path = Path(data_dir / "sbm.db")
+    db_path.touch(exist_ok=True)  # Creating .db file at path
 
+    return db_path
 
-conn = sqlite3.connect("/Users/michaeldeming/repos/small_business_manager/sbm.db")
-
-db = conn.cursor()
-
+#
+# def database_initialization():
+#     db_path = get_database_path()
+#
+#     conn = sqlite3.connect()
+#     db = conn.cursor()
+#
 """INVENTORY TABLE"""
 # db.execute("""CREATE TABLE inventory (
 
