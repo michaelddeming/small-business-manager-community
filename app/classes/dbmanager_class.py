@@ -1,19 +1,19 @@
 import sqlite3
 from classes.item_class import Item
-from FILEPATH import FILEPATH
+from db_schema import database_initialization
+
 
 class DatabaseManager:
 
     def __init__(self):
         self.conn = None
         self.db = None
+        self.db_path = database_initialization()
 
     def connect(self):
         if self.conn is None:
             try:
-                self.conn = sqlite3.connect(
-                    FILEPATH
-                )
+                self.conn = sqlite3.connect(self.db_path)
                 self.db = self.conn.cursor()
             except sqlite3.DatabaseError as e:
                 print(f"Database connection failed: {e}")
@@ -212,8 +212,8 @@ class DatabaseManager:
         if self.db and self.conn:
             self.db.execute(
                 "INSERT INTO transactions (type, date, item_id, item_amount, sale_platform, transportation, transportation_charge, fee, discount, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (   
-                    type, 
+                (
+                    type,
                     date,
                     item_id,
                     item_amount,
@@ -297,7 +297,7 @@ class DatabaseManager:
             return True
         else:
             raise sqlite3.ProgrammingError(f"Error: Database not connected.")
-        
+
     def convert_item_status_inventory(self, item_id: str):
 
         if self.db and self.conn:
@@ -361,7 +361,6 @@ class DatabaseManager:
             "SELECT year FROM income_statement"
         ).fetchall()
         years_ = [int(row[0]) for row in current_income_statement_years]
-        
 
         for year in years:
             gross_sales = self.fetch_gross_sales(year)
@@ -413,7 +412,8 @@ class DatabaseManager:
 
     def fetch_gross_sales(self, year):
         gross_sales_in_year = self.db.execute(
-            "SELECT SUM(item_amount) FROM transactions WHERE date LIKE ? AND type = ?", (f"{year}%", "sale")
+            "SELECT SUM(item_amount) FROM transactions WHERE date LIKE ? AND type = ?",
+            (f"{year}%", "sale"),
         ).fetchone()[0]
         return gross_sales_in_year if gross_sales_in_year else 0
 
@@ -426,7 +426,8 @@ class DatabaseManager:
 
     def fetch_allowances(self, year):
         gross_allowances_in_year = self.db.execute(
-            "SELECT SUM(item_amount) FROM transactions WHERE date LIKE ? AND type = ?", (f"{year}%", "return")
+            "SELECT SUM(item_amount) FROM transactions WHERE date LIKE ? AND type = ?",
+            (f"{year}%", "return"),
         ).fetchone()[0]
         return gross_allowances_in_year if gross_allowances_in_year else 0
 
@@ -450,7 +451,8 @@ class DatabaseManager:
             FROM transactions
             JOIN inventory ON transactions.item_id = inventory.id
             WHERE transactions.date LIKE ? AND transactions.type = 'sale'
-            """, (f"{year}%",)
+            """,
+            (f"{year}%",),
         ).fetchall()
 
         cost_of_goods_sold = sum(row[0] for row in sale_rows if row[0] is not None)
@@ -462,12 +464,15 @@ class DatabaseManager:
             FROM transactions
             JOIN inventory ON transactions.item_id = inventory.id
             WHERE transactions.date LIKE ? AND transactions.type = 'return'
-            """, (f"{year}%",)
+            """,
+            (f"{year}%",),
         ).fetchall()
 
-        cost_of_goods_returned = sum(row[0] for row in return_rows if row[0] is not None)
+        cost_of_goods_returned = sum(
+            row[0] for row in return_rows if row[0] is not None
+        )
 
-        return cost_of_goods_sold - cost_of_goods_returned 
+        return cost_of_goods_sold - cost_of_goods_returned
 
     def fetch_income_statement_expenses(self, year):
 
@@ -494,22 +499,36 @@ class DatabaseManager:
             raise sqlite3.ProgrammingError(f"Error: Database not connected.")
 
     def create_balance_sheet(self, current_year):
-        
-        # if the current_year is in the BUSINESS_years then we should have assets created for
-        item_cogs_in_current_year_unsold = self.db.execute("SELECT SUM(cost) FROM inventory WHERE status = 'inventory' AND date_purchased LIKE ?", (f"{current_year}%",)).fetchone()[0] or 0
 
-        previous_balance_sheet_years = self.db.execute("SELECT year FROM balance_sheet").fetchall()
+        # if the current_year is in the BUSINESS_years then we should have assets created for
+        item_cogs_in_current_year_unsold = (
+            self.db.execute(
+                "SELECT SUM(cost) FROM inventory WHERE status = 'inventory' AND date_purchased LIKE ?",
+                (f"{current_year}%",),
+            ).fetchone()[0]
+            or 0
+        )
+
+        previous_balance_sheet_years = self.db.execute(
+            "SELECT year FROM balance_sheet"
+        ).fetchall()
 
         years_ = [int(row[0]) for row in previous_balance_sheet_years]
 
         if int(current_year) in years_:
-            self.db.execute("UPDATE balance_sheet SET unsold_inventory = ? WHERE year = ?", (item_cogs_in_current_year_unsold, current_year))
+            self.db.execute(
+                "UPDATE balance_sheet SET unsold_inventory = ? WHERE year = ?",
+                (item_cogs_in_current_year_unsold, current_year),
+            )
         else:
-            self.db.execute("INSERT INTO balance_sheet (year, unsold_inventory) VALUES (?, ?)", (current_year, item_cogs_in_current_year_unsold))
+            self.db.execute(
+                "INSERT INTO balance_sheet (year, unsold_inventory) VALUES (?, ?)",
+                (current_year, item_cogs_in_current_year_unsold),
+            )
         self.conn.commit()
-            
+
     def fetch_balance_sheet(self, amount):
-        
+
         amounts = "all"
 
         if self.db and self.conn:
@@ -529,7 +548,3 @@ class DatabaseManager:
                     )
         else:
             raise sqlite3.ProgrammingError(f"Error: Database not connected.")
-
-
-            
-
