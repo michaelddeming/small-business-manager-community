@@ -1,5 +1,11 @@
 # Small Business Manager v1.0 by Michael Deming
 
+## Community Version
+
+Welcome to the Small Business Manager Community Project! I am super excited to collaborate with programmers of all likes on this open source community effort!
+
+Discussion for this project can be found within the **Programmers by Michael Deming** discord, under the "OPEN SOURCE" category, within the "📊-small-business-manager-community" discussion channel.
+
 ## Purpose
 
 The purpose for this project is to ease the technicality behind running a small business. Many entrepreneurs or creatives are focused on growing the company through marketing and branding, meanwhile leaving gaps in book-keeping and accounting. 
@@ -98,8 +104,5 @@ This project by no means reinvents the wheel as a business management program, b
             5. Sale Platforms (Add or remove sale platforms)
             6. Sale Transp. Methods (Add or remove sale transport methods)
 
-## Community Version
 
-I plan to launch a Community Edition of this project as a separate repository. This version will be open to contributions from my YouTube and Twitch subscribers, as well as members of the Discord server.
 
-The goal is to encourage collaboration in an open-source format — whether you’re learning, contributing features, fixing bugs, or just exploring how it all works.
