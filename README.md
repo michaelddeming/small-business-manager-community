@@ -28,11 +28,8 @@ This project by no means reinvents the wheel as a business management program, b
         2. `datetime`
         3. `JSON`
         4. `sqlite3`
-
-### Database Sync
-
-- Copy the filepath for the `sbm.db` file found within the `small_business_manager` project directory. 
-- Paste the `sbm.db` filepath as the **variable value** for the variable `FILEPATH` found within the `FILEPATH.env` file inside the `app` directory.
+        5. `platform`
+        6. `pathlib`
 
 ### Workflow
 
