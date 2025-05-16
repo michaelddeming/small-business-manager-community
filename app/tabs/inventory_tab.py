@@ -4,7 +4,7 @@ from tkinter import ttk
 
 from classes.item_class import Item
 
-from classes.aux import *
+from classes.funcs import *
 
 
 class InventoryTab(ttk.Frame):

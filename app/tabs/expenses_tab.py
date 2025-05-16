@@ -6,7 +6,7 @@ import sqlite3
 
 from classes.expense_class import Expense
 
-from classes.aux import *
+from classes.funcs import *
 
 
 class ExpenseTab(ttk.Frame):

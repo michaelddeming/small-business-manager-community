@@ -6,7 +6,7 @@ import sqlite3
 
 from classes.transaction_class import Transaction
 
-from classes.aux import *
+from classes.funcs import *
 
 
 class TransactionsTab(ttk.Frame):
