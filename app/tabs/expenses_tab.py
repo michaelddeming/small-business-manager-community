@@ -4,9 +4,9 @@ from tkinter import ttk
 
 import sqlite3
 
-from classes.expense_class import Expense
+from app.classes.expense_class import Expense
 
-from classes.funcs import *
+from app.classes.funcs import *
 
 
 class ExpenseTab(ttk.Frame):

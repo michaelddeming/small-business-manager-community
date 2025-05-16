@@ -2,9 +2,9 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from classes.item_class import Item
+from app.classes.item_class import Item
 
-from classes.funcs import *
+from app.classes.funcs import *
 
 
 class InventoryTab(ttk.Frame):

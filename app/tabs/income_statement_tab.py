@@ -2,7 +2,7 @@ import tkinter as tk
 
 from tkinter import ttk
 
-from classes.funcs import *
+from app.classes.funcs import *
 
 class IncomeStatementTab(ttk.Frame):
     def __init__(self, parent: tk.Tk | ttk.Notebook, text: str, database, BUSINESS):

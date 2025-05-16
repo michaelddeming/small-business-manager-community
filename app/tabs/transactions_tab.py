@@ -4,9 +4,9 @@ from tkinter import ttk
 
 import sqlite3
 
-from classes.transaction_class import Transaction
+from app.classes.transaction_class import Transaction
 
-from classes.funcs import *
+from app.classes.funcs import *
 
 
 class TransactionsTab(ttk.Frame):

@@ -2,15 +2,15 @@ import tkinter as tk
 from tkinter import ttk
 
 # /-------------------------/ #
-from tabs.balance_sheet_tab import BalanceSheetTab
-from tabs.expenses_tab import ExpenseTab
-from tabs.income_statement_tab import IncomeStatementTab
-from tabs.inventory_tab import InventoryTab
-from tabs.settings_tab import SettingsTab
-from tabs.transactions_tab import TransactionsTab
+from app.tabs.balance_sheet_tab import BalanceSheetTab
+from app.tabs.expenses_tab import ExpenseTab
+from app.tabs.income_statement_tab import IncomeStatementTab
+from app.tabs.inventory_tab import InventoryTab
+from app.tabs.settings_tab import SettingsTab
+from app.tabs.transactions_tab import TransactionsTab
 
-from classes.dbmanager_class import DatabaseManager
-from classes.business_class import Business
+from app.classes.dbmanager_class import DatabaseManager
+from app.classes.business_class import Business
 
 
 # /-------------------------------------------------/ #

@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 import datetime
-from classes.funcs import *
+from app.classes.funcs import *
 
 class BalanceSheetTab(ttk.Frame):
     def __init__(self, parent: tk.Tk | ttk.Notebook, database, BUSINESS, income_statement_tab):

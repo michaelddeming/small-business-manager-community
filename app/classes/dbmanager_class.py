@@ -1,6 +1,6 @@
 import sqlite3
-from classes.item_class import Item
-from db_schema import database_initialization
+from app.classes.item_class import Item
+from app.db_schema import database_initialization
 
 
 class DatabaseManager:
